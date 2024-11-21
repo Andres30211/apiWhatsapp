@@ -28,7 +28,7 @@ public class WhatsappController {
 	private String whatsappFrom;
 	
 	public WhatsappController() {
-		Twilio.init(this.accountSid,this.authToken);
+		Twilio.init(accountSid,authToken);
 	}
 	
 	@PostMapping("/mensaje")
