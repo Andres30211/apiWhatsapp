@@ -1,54 +1,35 @@
 package whatsapp.controller;
 
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 
 @RestController
 @RequestMapping("/api/whatsapp")
 public class WhatsappController {
-
-	@Value("${twilio.account.sid}")
-	private String accountSid;
 	
-	@Value("${twilio.auth.token}")
-	private String authToken;
+	public static final String ACCOUNT_SID = "AC0bb2ec721155853bf33eb4a2a188e634";
+    public static final String AUTH_TOKEN = "bc47944aa459fdb61346a77f651a47c6";
 	
-	@Value("${twilio.whatsapp.from}")
-	private String whatsappFrom;
-	
-	public WhatsappController() {
-		Twilio.init(accountSid,authToken);
+	@GetMapping("/mensaje")
+	public String mensaje() {
+		
+		Twilio.init(ACCOUNT_SID,AUTH_TOKEN);
+		Message message = Message
+				.creator(
+						new PhoneNumber("whatsapp:+573022458804"),
+						new PhoneNumber("whatsapp:+14155238886"),
+						"Ahora podemos hacer cualquier cosa...")
+				.create();
+		
+		return message.getBody();
 	}
 	
-	@PostMapping("/mensaje")
-	public String mensaje(@RequestParam Map<String, String> requestBody) {
-		
-		String from = requestBody.get("From");
-		String body = requestBody.get("Body");
-		
-		if("1".equals(body.trim())) {
-			this.sendMessage(from, "hola!, este es un saludo automatico desde spring boot y twilio...");
-		}else {
-			this.sendMessage(from, "Lo siento no entendi el mensaje, envia 1 para poder responder...");
-		}
-		
-		return "Mensaje procesado...";
-	}
-	
-	private void sendMessage(String to, String message) {
-		
-		Message.creator(new PhoneNumber(to), new PhoneNumber(message), message);
-	}
 	
 }
