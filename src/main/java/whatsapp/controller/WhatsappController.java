@@ -1,13 +1,17 @@
 package whatsapp.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 
+import java.util.Map;
+
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 
 @RestController
@@ -30,6 +34,22 @@ public class WhatsappController {
 		
 		return message.getBody();
 	}
+	
+	@PostMapping("/peticion")
+    public String procesarMensajeEntrante(@RequestParam Map<String, String> body) {
+        String from = body.get("From"); // Número del remitente
+        String messageBody = body.get("Body"); // Cuerpo del mensaje
+
+        // Responder al remitente
+        Message response = Message
+                .creator(
+                        new PhoneNumber(from), // Responder al remitente
+                        new PhoneNumber("whatsapp:+14155238886"), // Twilio
+                        "Recibí tu mensaje: " + messageBody)
+                .create();
+
+        return "Mensaje recibido y respondido";
+    }
 	
 	
 }
