@@ -9,11 +9,18 @@ import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 
 import jakarta.annotation.PostConstruct;
+import whatsapp.models.Products;
+import whatsapp.models.Users;
+import whatsapp.services.products.IDaoProducts;
+import whatsapp.services.users.IDaoRepository;
+import whatsapp.servicesbot.ServicesBot;
 
-import java.awt.event.FocusEvent.Cause;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
@@ -21,9 +28,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequestMapping("/api/whatsapp")
 public class WhatsappController {
 	
-	public static final String ACCOUNT_SID = "AC0bb2ec721155853bf33eb4a2a188e634";
-    public static final String AUTH_TOKEN = "bc47944aa459fdb61346a77f651a47c6";
+	@Value("${twilio.account.sid}")
+	private String ACCOUNT_SID;
 	
+	@Value("${twilio.auth.token}")
+	private String AUTH_TOKEN;
+    
+    @Autowired
+    private ServicesBot servicesBot;
+    
+    public static String addressee;
+    
     @PostConstruct
     public void init() throws Exception{
     	if(ACCOUNT_SID != null && AUTH_TOKEN != null) {
@@ -33,35 +48,23 @@ public class WhatsappController {
     	}
     	
     }
-    
-	@GetMapping("/mensaje")
-	public String mensaje() {
-		
-		Message message = Message
-				.creator(
-						new PhoneNumber("whatsapp:+573022458804"),
-						new PhoneNumber("whatsapp:+14155238886"),
-						"Ahora podemos hacer cualquier cosa...")
-				.create();
-		
-		return message.getBody();
-	}
 	
-	@PostMapping("/peticion")
-    public String procesarMensajeEntrante(@RequestParam Map<String, String> body) {
+	@PostMapping("/post")
+    public void procesarMensajeEntrante(@RequestParam Map<String, String> body) {
+		addressee = body.get("From");
         String from = body.get("From"); // Número del remitente
         String messageBody = body.get("Body"); // Cuerpo del mensaje
 
-        // Responder al remitente
-        Message response = Message
-                .creator(
-                        new PhoneNumber(from), // Responder al remitente
-                        new PhoneNumber("whatsapp:+14155238886"), // Twilio
-                        "Recibí tu mensaje: " + messageBody)
-                .create();
+//        String response = this.servicesBot.processOptiosMenu_1(from, messageBody);
 
-        return "Mensaje recibido y respondido";
+        // Enviar la respuesta al usuario
+        if(messageBody.equals(1)) {
+        	 Message.creator(
+                     new PhoneNumber(from), // Número del cliente
+                     new PhoneNumber("whatsapp:+14155238886"), // Tu número de Twilio
+                     "jummm"
+             ).create();
+        }
     }
-	
-	
+
 }

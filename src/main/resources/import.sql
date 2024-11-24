@@ -1,0 +1,2 @@
+insert into tbl_products(name,description,cant,price) values('Sello mecanico tipo 21 1pg','Es un sello para la industria',5,300000);
+insert into tbl_products(name,description,cant,price) values('Sello mecanico tipo 19 22mm','Es un sello mas secillo',100,1000);
