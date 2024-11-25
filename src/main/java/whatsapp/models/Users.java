@@ -18,6 +18,8 @@ public class Users {
 	
 	private String status;
 	
+	private String currentProduct;
+
 	public Users(String phoneNumber, String status) {
 		this.phoneNumber = phoneNumber;
 		this.status = status;
@@ -51,4 +53,11 @@ public class Users {
 		this.status = status;
 	}
 	
+	public String getCurrentProduct() {
+		return currentProduct;
+	}
+
+	public void setCurrentProduct(String currentProduct) {
+		this.currentProduct = currentProduct;
+	}
 }

@@ -26,8 +26,7 @@ public class RepositoryProductsImple implements IDaoProducts{
 	}
 
 	@Override
-	public Products sell(String name) {
-		
+	public String sell(String name, Integer cantidad) {
 		return null;
 	}
 
@@ -54,12 +53,28 @@ public class RepositoryProductsImple implements IDaoProducts{
 					.setParameter("name", "%" + name + "%")
 					.getSingleResult();
 		} catch (Exception e) {
-			return "Lo siento ese producto no existe";
-//			System.out.println(e.getMessage());
+			return null;
 		}
 		
-		return product.toString()+ "\nIngresa la canidad que quieres vender !";
+		return product.toString()+ "\nDigita cualquier letra para ir al menu principal !";
 		
 	}
+
+	@Override
+	public String findByNameFill(String name) {
+		Products product = new Products();
+		try {
+			product =  this.entityManager
+					.createQuery("select p from Products p where p.name like :name", Products.class)
+					.setParameter("name", "%" + name + "%")
+					.getSingleResult();
+		} catch (Exception e) {
+			return null;
+		}
+		
+		return product.toString()+ "\nDigita la cantidad de productos que vas a vender !";
+	}
+	
+	
 
 }

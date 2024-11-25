@@ -65,43 +65,25 @@ public class ServicesBot {
         String status = user.getStatus();
         String response = "";
         
+               
         if(status.equals("init")) {
         	response = processMainManu(from, messageBody);
-        	System.out.println(status);
         }else if(status.equals("vendiendo")) {
-        	response = this.daoProducts.findByName(messageBody).toString();
-//        	this.daoRepository.updateStatus(from, "init");
-//        	this.sendMessage(WhatsappController.addressee, response);
+        	if(this.daoProducts.findByName(messageBody) != null) {
+        		response = this.daoProducts.findByNameFill(messageBody).toString();
+        		
+        	}else {
+        		response = "No pude encontrar productos con esos datos, necesito mas detalles !";
+        	}
         	System.out.println(status);
         }else if(status.equals("consultando")) {
-        	response = this.daoProducts.findByName(messageBody);
+        	if(this.daoProducts.findByName(messageBody) != null) {
+        		response = this.daoProducts.findByName(messageBody);
+        		this.daoRepository.updateStatus(from, "init");
+        	}else {
+        		response = "No pude encontrar productos con esos datos, necesito mas detalles !";
+        	}
         }
-
-//        switch (messageBody) {
-//            case "init":
-//            	response = processMainManu(from, messageBody);
-//                break;
-//            case "crear":
-//            	response = "¡Producto creado exitosamente! Escribe cualquier cosa para regresar al menú principal.";
-//            	this.daoRepository.updateStatus(from, "init");
-//                break;
-//            case "consultar":
-//            	response = "Consulta realizada. Escribe cualquier cosa para regresar al menú principal.";
-//            	this.daoRepository.updateStatus(from, "init");
-//                break;
-//            case "listar":
-//            	response = "Aquí está la lista de productos. Escribe cualquier cosa para regresar al menú principal.";
-//            	this.daoRepository.updateStatus(from, "init");
-//                break;
-//            case "actualizar":
-//            	response = "Producto actualizado. Escribe cualquier cosa para regresar al menú principal.";
-//            	this.daoRepository.updateStatus(from, "init");
-//                break;
-//            default:
-//            	response = "No entendí tu mensaje. Escribe cualquier cosa para regresar al menú principal.";
-//            	this.daoRepository.updateStatus(from, "init");
-//        }
-        
         return response;
 	}
 }

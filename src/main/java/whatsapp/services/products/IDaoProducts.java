@@ -6,9 +6,11 @@ public interface IDaoProducts {
 
 	Products saveProduct(Products product);
 	
-	Products sell(String name);
+	String sell(String name, Integer cantidad);
 	
 	String listProducts();
 	
 	String findByName(String name);
+	
+	String findByNameFill(String name);
 }
