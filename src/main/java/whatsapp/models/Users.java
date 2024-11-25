@@ -20,6 +20,10 @@ public class Users {
 	
 	private String currentProduct;
 
+	public Users(String currenString) {
+		this.currentProduct = currenString;
+	}
+	
 	public Users(String phoneNumber, String status) {
 		this.phoneNumber = phoneNumber;
 		this.status = status;

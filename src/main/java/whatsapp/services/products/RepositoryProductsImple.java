@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import whatsapp.models.Products;
 
 @Service
@@ -19,15 +20,56 @@ public class RepositoryProductsImple implements IDaoProducts{
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	@Transactional
 	@Override
-	public Products saveProduct(Products product) {
-		// TODO Auto-generated method stub
-		return null;
+	public String saveCantProduct(String name, String cantidad) {
+		Products product = new Products();
+		String response = "";
+		try {
+	        product = this.entityManager
+	                .createQuery("select p from Products p where p.name=:name", Products.class)
+	                .setParameter("name", name)
+	                .getSingleResult();
+	        
+	        response = product.toString();
+	        Integer cant = Integer.parseInt(cantidad);
+	        if (product.getCant() >= cant) {
+	            product.setCant(product.getCant() + cant); // Resta la cantidad
+	            this.entityManager.merge(product); // Actualiza el producto en la base de datos
+	            response = product.toString();
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.out.println(e.getMessage());
+	    }
+		return response.concat("\nPresione cualquier letra para salir el menú principal !");
 	}
 
+	@Transactional
 	@Override
-	public String sell(String name, Integer cantidad) {
-		return null;
+	public String sell(String name, String cantidad) {
+		Products product = new Products();
+		String response = "";
+		try {
+	        product = this.entityManager
+	                .createQuery("select p from Products p where p.name=:name", Products.class)
+	                .setParameter("name", name)
+	                .getSingleResult();
+	        
+	        response = product.toString();
+	        Integer cant = Integer.parseInt(cantidad);
+	        if (product.getCant() >= cant) {
+	            product.setCant(product.getCant() - cant); // Resta la cantidad
+	            this.entityManager.merge(product); // Actualiza el producto en la base de datos
+	            response = product.toString();
+	        } else {
+	            response = "No hay cantidad suficiente de " + product.getName();
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.out.println(e.getMessage());
+	    }
+		return response.concat("\nPresione cualquier letra para salir el menú principal !");
 	}
 
 	@Override
@@ -49,8 +91,8 @@ public class RepositoryProductsImple implements IDaoProducts{
 		Products product = new Products();
 		try {
 			product =  this.entityManager
-					.createQuery("select p from Products p where p.name like :name", Products.class)
-					.setParameter("name", "%" + name + "%")
+					.createQuery("select p from Products p where p.name=:name", Products.class)
+					.setParameter("name", name)
 					.getSingleResult();
 		} catch (Exception e) {
 			return null;
@@ -65,14 +107,29 @@ public class RepositoryProductsImple implements IDaoProducts{
 		Products product = new Products();
 		try {
 			product =  this.entityManager
-					.createQuery("select p from Products p where p.name like :name", Products.class)
-					.setParameter("name", "%" + name + "%")
+					.createQuery("select p from Products p where p.name=:name", Products.class)
+					.setParameter("name", name)
 					.getSingleResult();
 		} catch (Exception e) {
 			return null;
 		}
 		
 		return product.toString()+ "\nDigita la cantidad de productos que vas a vender !";
+	}
+
+	@Override
+	public String findByNameAdd(String name) {
+		Products product = new Products();
+		try {
+			product =  this.entityManager
+					.createQuery("select p from Products p where p.name=:name", Products.class)
+					.setParameter("name", name)
+					.getSingleResult();
+		} catch (Exception e) {
+			return null;
+		}
+		
+		return product.toString()+ "\nDigita la cantidad de productos que vas agregar !";
 	}
 	
 	

@@ -4,9 +4,11 @@ import whatsapp.models.Users;
 
 public interface IDaoRepository {
 
-	Users saveUser(String phoneNumber);
+	Users saveUser(Users users);
 	
 	Users findUserByNumber(String numer);
 	
 	Users updateStatus(String phoneNumber, String status);
+	
+	String updateProductUser(String phoneNumber, String name);
 }

@@ -17,12 +17,12 @@ public class CrudRepositoryImple implements IDaoRepository{
 	private ICrudRepository crudRepository;
 	
 	@Override
-	public Users saveUser(String phoneNumber) {
+	public Users saveUser(Users users) {
 		Users user = new Users();
 		try {
-			 user = this.findUserByNumber(phoneNumber);
+			 user = this.findUserByNumber(users.getPhoneNumber());
 			if(user == null) {
-				user = new Users(phoneNumber, "init");
+				user = new Users(users.getPhoneNumber(), users.getStatus());
 				this.crudRepository.save(user);
 			}
 		} catch (Exception e) {
@@ -61,6 +61,21 @@ public class CrudRepositoryImple implements IDaoRepository{
 			return null;
 		}
 		
+	}
+
+	@Override
+	public String updateProductUser(String phoneNumber, String name) {
+		Users user = new Users();
+		try {
+			 user = this.findUserByNumber(phoneNumber);
+			if(user != null) {
+				user.setCurrentProduct(name);
+				user = this.crudRepository.save(user);
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return user.getCurrentProduct();
 	}
 
 }

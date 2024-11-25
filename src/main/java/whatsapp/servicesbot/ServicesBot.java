@@ -27,11 +27,17 @@ public class ServicesBot {
 	}
 	
 	public void sendMessage(String addressee, String text) {
-        Message.creator(
-                new PhoneNumber(addressee), // Número del cliente
-                new PhoneNumber(twilioWhatsappNumber), // Tu número de Twilio
-                text
-        ).create();
+		try {
+			Message.creator(
+	                new PhoneNumber(addressee), // Número del cliente
+	                new PhoneNumber(twilioWhatsappNumber), // Tu número de Twilio
+	                text
+	        ).create();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+        
     }
 	
 	public String processMainManu(String from, String messageBody) {
@@ -42,7 +48,7 @@ public class ServicesBot {
             return "Seleccionaste *Vender producto*. Por favor, envía los detalles del producto.";
         case "2":
         	this.daoRepository.updateStatus(from, "agregando");
-            return "Seleccionaste *Consultar Producto*. Por favor, envía el nombre o ID del producto.";
+            return "Seleccionaste *Agregar producto*. Por favor, envía los detalles del producto.";
         case "3":
         	this.daoRepository.updateStatus(from, "init");
             return this.daoProducts.listProducts();
@@ -61,22 +67,44 @@ public class ServicesBot {
 	
 	public String processOptiosMenu_1(String from, String messageBody) {
 		
-		Users user = this.daoRepository.saveUser(from);
+		Users user = new Users(from, "init");
+		user = this.daoRepository.saveUser(user);
         String status = user.getStatus();
         String response = "";
-        
                
         if(status.equals("init")) {
         	response = processMainManu(from, messageBody);
         }else if(status.equals("vendiendo")) {
+        	System.out.println(status);
         	if(this.daoProducts.findByName(messageBody) != null) {
+        		this.daoRepository.updateStatus(from, "restandoCantidad");
+        		this.daoRepository.updateProductUser(from, messageBody);
         		response = this.daoProducts.findByNameFill(messageBody).toString();
-        		
         	}else {
         		response = "No pude encontrar productos con esos datos, necesito mas detalles !";
         	}
+        }else if(status.equals("restandoCantidad")) {
         	System.out.println(status);
-        }else if(status.equals("consultando")) {
+        	String name = user.getCurrentProduct();
+        	System.out.println(name);
+        	response = this.daoProducts.sell(name, messageBody);
+        	this.daoRepository.updateStatus(from, "init");
+        }else if(status.equals("agregando")) {
+        	System.out.println(status);
+        	if(this.daoProducts.findByName(messageBody) != null) {
+        		this.daoRepository.updateStatus(from, "agregandoCantidad");
+        		this.daoRepository.updateProductUser(from, messageBody);
+        		response = this.daoProducts.findByNameAdd(messageBody).toString();
+        	}else {
+        		response = "No pude encontrar productos con esos datos, necesito mas detalles !";
+        	}
+        }else if(status.equals("agregandoCantidad")) {
+        	System.out.println(status);
+        	String name = user.getCurrentProduct();
+        	System.out.println(name);
+        	response = this.daoProducts.saveCantProduct(name, messageBody);
+        	this.daoRepository.updateStatus(from, "init");
+    	}else if(status.equals("consultando")) {
         	if(this.daoProducts.findByName(messageBody) != null) {
         		response = this.daoProducts.findByName(messageBody);
         		this.daoRepository.updateStatus(from, "init");

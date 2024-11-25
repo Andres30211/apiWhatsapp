@@ -5,19 +5,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.twilio.Twilio;
-import com.twilio.rest.api.v2010.account.Message;
-import com.twilio.type.PhoneNumber;
 
 import jakarta.annotation.PostConstruct;
-import whatsapp.models.Products;
-import whatsapp.models.Users;
-import whatsapp.services.products.IDaoProducts;
-import whatsapp.services.users.IDaoRepository;
 import whatsapp.servicesbot.ServicesBot;
 
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
