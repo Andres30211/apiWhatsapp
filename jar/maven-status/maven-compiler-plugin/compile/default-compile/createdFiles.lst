@@ -1,2 +1,12 @@
+whatsapp\services\products\IDaoProducts.class
+whatsapp\ConfigDateTwilioAuth.class
+whatsapp\services\products\RepositoryProductsImple.class
+whatsapp\models\Products.class
+whatsapp\services\users\ICrudRepository.class
+whatsapp\services\products\ICrudRepositoryProducts.class
+whatsapp\services\users\IDaoRepository.class
 whatsapp\controller\WhatsappController.class
+whatsapp\servicesbot\ServicesBot.class
+whatsapp\models\Users.class
+whatsapp\services\users\CrudRepositoryImple.class
 whatsapp\Application.class

@@ -1,2 +1,12 @@
 C:\Users\Usuario\Documents\workspace-spring-tool-suite-4-4.24.0.RELEASE\api.whatsapp\src\main\java\whatsapp\Application.java
+C:\Users\Usuario\Documents\workspace-spring-tool-suite-4-4.24.0.RELEASE\api.whatsapp\src\main\java\whatsapp\ConfigDateTwilioAuth.java
 C:\Users\Usuario\Documents\workspace-spring-tool-suite-4-4.24.0.RELEASE\api.whatsapp\src\main\java\whatsapp\controller\WhatsappController.java
+C:\Users\Usuario\Documents\workspace-spring-tool-suite-4-4.24.0.RELEASE\api.whatsapp\src\main\java\whatsapp\models\Products.java
+C:\Users\Usuario\Documents\workspace-spring-tool-suite-4-4.24.0.RELEASE\api.whatsapp\src\main\java\whatsapp\models\Users.java
+C:\Users\Usuario\Documents\workspace-spring-tool-suite-4-4.24.0.RELEASE\api.whatsapp\src\main\java\whatsapp\services\products\ICrudRepositoryProducts.java
+C:\Users\Usuario\Documents\workspace-spring-tool-suite-4-4.24.0.RELEASE\api.whatsapp\src\main\java\whatsapp\services\products\IDaoProducts.java
+C:\Users\Usuario\Documents\workspace-spring-tool-suite-4-4.24.0.RELEASE\api.whatsapp\src\main\java\whatsapp\services\products\RepositoryProductsImple.java
+C:\Users\Usuario\Documents\workspace-spring-tool-suite-4-4.24.0.RELEASE\api.whatsapp\src\main\java\whatsapp\services\users\CrudRepositoryImple.java
+C:\Users\Usuario\Documents\workspace-spring-tool-suite-4-4.24.0.RELEASE\api.whatsapp\src\main\java\whatsapp\services\users\ICrudRepository.java
+C:\Users\Usuario\Documents\workspace-spring-tool-suite-4-4.24.0.RELEASE\api.whatsapp\src\main\java\whatsapp\services\users\IDaoRepository.java
+C:\Users\Usuario\Documents\workspace-spring-tool-suite-4-4.24.0.RELEASE\api.whatsapp\src\main\java\whatsapp\servicesbot\ServicesBot.java
