@@ -55,16 +55,10 @@ public class WhatsappController {
         String from = body.get("From"); // Número del remitente
         String messageBody = body.get("Body"); // Cuerpo del mensaje
 
-//        String response = this.servicesBot.processOptiosMenu_1(from, messageBody);
+        String response = this.servicesBot.processOptiosMenu_1(from, messageBody);
 
         // Enviar la respuesta al usuario
-        if(messageBody.equals(1)) {
-        	 Message.creator(
-                     new PhoneNumber(from), // Número del cliente
-                     new PhoneNumber("whatsapp:+14155238886"), // Tu número de Twilio
-                     "jummm"
-             ).create();
-        }
+        this.servicesBot.sendMessage(from, response);
     }
 
 }

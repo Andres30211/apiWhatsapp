@@ -27,12 +27,7 @@ public class RepositoryProductsImple implements IDaoProducts{
 
 	@Override
 	public Products sell(String name) {
-		String product = "";
-		try {
-			product = this.findByName(name);
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+		
 		return null;
 	}
 
